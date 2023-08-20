@@ -1,0 +1,91 @@
+body {
+    font-family: 'Orbitron', sans-serif;
+    background-color: #121212;
+    color: #ffffff;
+    overflow: auto;
+    background-color: #000;
+}
+
+h1 {
+    font-size: 3em;
+    text-align: center;
+    margin-top: 20px;
+    color: #ff0000;
+    text-shadow: 0px 0px 5px #ff0000;
+    animation: neonGlow 1.5s infinite alternate;
+}
+
+@keyframes neonGlow {
+    from {
+        text-shadow: 0px 0px 3px #ff0000;
+    }
+    to {
+        text-shadow: 0px 0px 8px #ff0000;
+    }
+}
+
+form {
+    background-color: rgba(255, 255, 255, 0.05);
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 15px rgba(255, 0, 0, 0.5);
+}
+
+input[type="number"], input[type="submit"], input[type="text"] {
+    padding: 10px;
+    border: 1px solid #ff0000;
+    border-radius: 5px;
+    background-color: #1a1a1a;
+    color: #ffffff;
+    outline: none;
+    transition: background-color 0.3s, transform 0.3s;
+    transform: scale(1);
+}
+
+input[type="number"]:hover, input[type="number"]:focus, 
+input[type="submit"]:hover, input[type="submit"]:focus,
+input[type="text"]:hover, input[type="text"]:focus {
+    background-color: #333;
+    border-color: #ff0000;
+    transform: scale(1.05);
+}
+
+.table-style {
+    width: 100%;
+    border-collapse: collapse;
+    border: 1px solid #3e3e3e; 
+}
+
+.table-style th, .table-style td {
+    padding: 10px;
+    text-align: left;
+    border-bottom: 1px solid #3e3e3e;
+}
+
+.table-style th {
+    background-color: #1a1a1a;
+    color: #ff0000;
+}
+
+#result {
+    font-size: 2em;
+    color: #ff0000;
+    text-shadow: 0px 0px 5px #ff0000;
+    animation: neonGlow 1.5s infinite alternate;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+.btn-clear-history {
+    background-color: #ff0000;
+    color: #ffffff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.btn-clear-history:hover {
+    background-color: #ff4d4d;
+}
