@@ -1,5 +1,5 @@
 from flask import Flask, render_template, request, redirect, url_for
-from bisect import bisect
+from bisect import bisect_left
 
 
 app = Flask(__name__)
@@ -20,10 +20,11 @@ PUEBLOS = [
     {"nombre": "ABRERA", "km": 36},
     {"nombre": "AIGUAFREDA", "km": 64},
     {"nombre": "ELS ALAMÚS", "km": 145},
-    {"nombre": "L' AMETLLA DEL VALLÈS", "km": 35},
+    {"nombre": "L'AMETLLA DEL VALLÈS", "km": 35},
     {"nombre": "ARENYS DE MUNT", "km": 45},
     {"nombre": "ARGENTONA", "km": 32},
     {"nombre": "BADALONA", "km": 14},
+    {"nombre": "BANYOLES", "km": 121},
     {"nombre": "BARBERÀ DEL VALLÈS", "km": 17},
     {"nombre": "BELLATERRA", "km": 22},
     {"nombre": "BELLVEI", "km": 62},
@@ -38,22 +39,28 @@ PUEBLOS = [
     {"nombre": "CASSÀ DE LA SELVA", "km": 106},
     {"nombre": "CASTELLAR DEL VALLÈS", "km": 40},
     {"nombre": "CASTELLGALÍ", "km": 61},
+    {"nombre": "CALELLA", "km": 51},
     {"nombre": "CASTELLVÍ DE ROSANES", "km": 32},
     {"nombre": "CASTELLBISBAL", "km": 24},
+    {"nombre": "CARDONA", "km": 99},
     {"nombre": "CELRÀ", "km": 111},
     {"nombre": "CENTELLES", "km": 61},
     {"nombre": "CERDANYOLA DEL VALLÈS", "km": 14},
     {"nombre": "CERVELLÓ", "km": 25},
     {"nombre": "CONSTANTÍ", "km": 113},
     {"nombre": "CORNELLÀ DE LLOBREGAT", "km": 9},
+    {"nombre": "CORRO D'AMUNT", "km": 31},
+    {"nombre": "COMAJULIANA (GIRONA)", "km": 75},
     {"nombre": "DOSRIUS", "km": 37},
     {"nombre": "EL MASNOU", "km": 17},
     {"nombre": "EL PAPIOL", "km": 19},
     {"nombre": "ESPARREGUERA", "km": 38},
     {"nombre": "ESPLUGUES DE LLOBREGAT", "km": 14},
     {"nombre": "FOGARS DE LA SELVA", "km": 79},
+    {"nombre": "FIGUERES", "km": 142},
     {"nombre": "GAVÀ", "km": 18},
     {"nombre": "GELIDA", "km": 35},
+    {"nombre": "GURB", "km": 78},
     {"nombre": "GRANOLLERS", "km": 31},
     {"nombre": "LA GARRIGA", "km": 42},
     {"nombre": "LA GRANADA", "km": 54},
@@ -75,28 +82,82 @@ PUEBLOS = [
     {"nombre": "MONTBLANC", "km": 106},
     {"nombre": "MONTCADA I REIXAC", "km": 12},
     {"nombre": "MONTORNÈS DEL VALLÈS", "km": 25},
+    {"nombre": "MOLINS DE REI", "km": 15},
     {"nombre": "OLESA DE MONTSERRAT", "km": 38},
     {"nombre": "PALAFOLLS", "km": 62},
     {"nombre": "PALAU-SOLITÀ I PLEGAMANS", "km": 43},
+    {"nombre": "PALAU DE PLEGAMANS", "km": 43},
     {"nombre": "LA PALMA DE CERVELLÓ", "km": 23},
-    # ... Puedes agregar más pueblos si tienes más en la lista original ...
+    {"nombre": "PALOL DE RECARDIT", "km": 114},
+    {"nombre": "PALOL REVARDIT", "km": 114},
+    {"nombre": "PARETS V", "km": 24},
+    {"nombre": "PINEDA MAR", "km": 55},
+    {"nombre": "POLINYA", "km": 29},
+    {"nombre": "PONT D'AMENTERA", "km": 90},
+    {"nombre": "PREMIA DE DAL Y MAR", "km": 23},
+    {"nombre": "REUS", "km": 108},
+    {"nombre": "RIPOLLET", "km": 15},
+    {"nombre": "RIUDELLOTS DE LA SELVA", "km": 92},
+    {"nombre": "Riells i Viabrea, Girona", "km": 70},
+    {"nombre": "RUBI", "km": 21},
+    {"nombre": "SABADELL", "km": 24},
+    {"nombre": "SALT", "km": 104},
+    {"nombre": "SANT CEBRIA DE VALLATA", "km": 50},
+    {"nombre": "SANT FELIU DE GUIXOLS", "km": 109},
+    {"nombre": "SANT POL DE MAR", "km": 47},
+    {"nombre": "SENTMENAT", "km": 39},
+    {"nombre": "SORA", "km": 98},
+    {"nombre": "SOSES", "km": 170},
+    {"nombre": "SANT ADRIA DE BESOS", "km": 7},
+    {"nombre": "SANT ANDREU B", "km": 25},
+    {"nombre": "SANT ANDREU DE LA BARCE", "km": 25},
+    {"nombre": "SANT ANTONI DE VILAMAJOR", "km": 44},
+    {"nombre": "SANT BOI", "km": 12},
+    {"nombre": "SANT CEBRIA", "km": 50},
+    {"nombre": "SANT CEBRIA DE VALLATA", "km": 50},
+    {"nombre": "SANT CELONI", "km": 50},
+    {"nombre": "SANT CUGAT", "km": 19},
+    {"nombre": "SANTA EULALIA DE RONCADA", "km": 38},
+    {"nombre": "SANT FELIU LLOBREGAT", "km": 16},
+    {"nombre": "SANT FOST CAMP", "km": 23},
+    {"nombre": "SANT INSCLE", "km": 49},
+    {"nombre": "SANT JOAN DE LES ABANDESS", "km": 117},
+    {"nombre": "SANT JOAN DESPI", "km": 11},
+    {"nombre": "SANT JOAN LES FONS", "km": 147},
+    {"nombre": "SANT JULIA DE VILATORTA", "km": 75},
+    {"nombre": "SANT JULIA DE RAMIS", "km": 110},
+    {"nombre": "SANT JUST DEVERN", "km": 12},
+    {"nombre": "SANT MIQUEL DE BELENYA", "km": 62},
+    {"nombre": "SANT PERE VILAM", "km": 46},
+    {"nombre": "SANT POL DE MAR", "km": 47},
+    {"nombre": "SANT QUIRZE", "km": 22},
+    {"nombre": "SANT VICENT DL HORTS", "km": 18},
+    {"nombre": "SANT VICENT DE CASTELLET", "km": 58},
+    {"nombre": "SANTA COLOMA", "km": 92},
+    {"nombre": "SANTA MARIA PALAU TORDERA", "km": 52},
+    {"nombre": "SANTA PERPETUA DE MOGODA", "km": 24},
+    {"nombre": "TARRAGONA", "km": 108},
+    {"nombre": "TEIA", "km": 20},
+    {"nombre": "TERRASA", "km": 32},
+    {"nombre": "TONA", "km": 69},
+    {"nombre": "TORDERA", "km": 65},
+    {"nombre": "TORELLES DE FOIX", "km": 59},
+    {"nombre": "TORELLO", "km": 83},
+    {"nombre": "VALLIRANA", "km": 22},
+    {"nombre": "VALLS", "km": 88},
+    {"nombre": "VIC", "km": 67},
+    {"nombre": "VILADECANS", "km": 16},
+    {"nombre": "VILADECAVALLS", "km": 36},
+    {"nombre": "VILAMALLA", "km": 133},
+    {"nombre": "VILASSAR DAlT y MAR", "km": 24},
+    {"nombre": "VILLALBA SASERRA", "km": 44},
+    {"nombre": "VILLANOVA GECTRU", "km": 48},
 ]
-
 
 
 history = []
 
-def get_index(value, ranges):
-    """
-    Get the appropriate index for the value based on the ranges.
-    """
-    index = bisect(ranges, value)
-    # If the value is exactly equal to one of the ranges, decrease the index by 1
-    if value in ranges:
-        index -= 1
-    return index
-
-def calculate_price_with_cubic_weight(distance, weight, metros_cubicos):
+def calculate_price_with_cubic_weight(distance, weight, metros_cubicos, is_adr):
     # Calculate the equivalent weight for cubic meters
     cubic_weight = metros_cubicos * 270
 
@@ -104,62 +165,54 @@ def calculate_price_with_cubic_weight(distance, weight, metros_cubicos):
     final_weight = max(weight, cubic_weight)
 
     # Get the appropriate indices for the values
-    distance_index = get_index(distance, DISTANCE_RANGES)
-    weight_index = get_index(final_weight, WEIGHT_RANGES)
-    
+    distance_index = bisect_left(DISTANCE_RANGES, distance)
+    weight_index = bisect_left(WEIGHT_RANGES, final_weight)
+
     used_cubic_meters = cubic_weight > weight
 
-    # Get the price based on the determined indices
-    price = PRICES[distance_index][weight_index]
-    return price, used_cubic_meters, cubic_weight
+    # Get the base price based on the determined indices
+    base_price = PRICES[distance_index][weight_index]
 
-@app.route('/clear-history', methods=['POST'])
-def clear_history():
-    """
-    Clears the calculation history.
-    """
-    global history
-    history = []
-    return redirect(url_for('index'))
+    # If ADR is selected, calculate the ADR cost (30% of the base price)
+    adr_cost = base_price * 0.3 if is_adr else 0.0
+
+    return base_price, used_cubic_meters, cubic_weight, adr_cost
+
 
 @app.route('/', methods=['GET', 'POST'])
 def index():
     price = None
-    used_cubic_meters = False  # Flag to indicate if cubic meters were used
+    used_cubic_meters = False
     cubic_weight = None
+    is_adr = False
+    adr_cost = 0.0
     error_message = None
-    
+
     if request.method == 'POST':
-        try:
-            # Collect data from the form
-            distance = float(request.form.get('distancia', 0))
-            weight = float(request.form.get('peso', 0))
-            metros_cubicos = float(request.form.get('metros_cubicos', 0))
+        
+        distance = float(request.form.get('distancia', 0))
+        weight = float(request.form.get('peso', 0))
+        metros_cubicos = float(request.form.get('metros_cubicos', 0))
+        is_adr = 'adr' in request.form
+        if distance <= 0 or weight <= 0 or metros_cubicos <= 0:
+            raise ValueError("Todos los valores deben ser positivos y mayores que cero.")
+        base_price, used_cubic_meters, cubic_weight, adr_cost = calculate_price_with_cubic_weight(distance, weight, metros_cubicos, is_adr)
+        history.append({
+        'distance': distance,
+        'weight': weight,
+        'cubic_meters': metros_cubicos,
+        'used_cubic_meters': used_cubic_meters,
+        'price': base_price,
+        'cubic_weight': cubic_weight,
+        'is_adr': is_adr,
+        'adr_cost': adr_cost
+    })
+    return render_template('index.html', price=price, history=history, error_message=error_message, pueblos=PUEBLOS)
 
-            # Validation
-            if distance <= 0 or weight <= 0 or metros_cubicos <= 0:
-                raise ValueError("Todos los valores deben ser positivos y mayores que cero.")
-            
-            # Calculate the price, determine if cubic meters were used, and get the cubic weight
-            price, used_cubic_meters, cubic_weight = calculate_price_with_cubic_weight(distance, weight, metros_cubicos)
-            price_str = str(price)  # Convert the price to string for display in the template
-
-            # Add the calculation to the history
-            history.append({
-                'distance': distance,
-                'weight': weight,
-                'cubic_meters': metros_cubicos,
-                'used_cubic_meters': used_cubic_meters,
-                'price': price_str,
-                'cubic_weight': cubic_weight
-            })
-
-        except ValueError as e:
-            error_message = str(e)
-
-    # Pass the history and any error messages to the template
-    return render_template('index.html', price=price, history=history, error_message=error_message,  pueblos=PUEBLOS)
-
+@app.route('/clear-history', methods=['POST'])
+def clear_history():
+    history.clear()
+    return redirect(url_for('index'))
 
 if __name__ == '__main__':
     app.run(debug=True)
