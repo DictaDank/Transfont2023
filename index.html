@@ -1,8 +1,8 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
-    <link rel="shortcut icon" href="{{ url_for('docs', filename='logo.png') }}">
+    <link rel="shortcut icon" href="{{ url_for('style', filename='logo.png') }}">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cliente CSTRANS</title>
@@ -10,7 +10,7 @@
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <!-- Tu CSS personalizado -->
-    <link rel="stylesheet" href="{{ url_for('docs', filename='styles.css') }}">
+    <link rel="stylesheet" href="{{ url_for('style', filename='styles.css') }}">
 
     <!-- Bootstrap y dependencias JS -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
@@ -20,7 +20,7 @@
 <body>
     <div class="container mt-4">
         <h1 class="text-center text-danger">Cliente CSTRANS</h1>
-        <img src="{{ url_for('docs', filename='logo.png') }}" alt="Logo" width="100">    
+        <img src="{{ url_for('style', filename='logo.png') }}" alt="Logo" width="100">    
         <div class="row">
             <!-- Formulario -->
             <div class="col-md-6">

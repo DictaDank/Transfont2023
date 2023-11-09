@@ -129,10 +129,12 @@ PUEBLOS = [
     {"nombre": "SANT JUST DEVERN", "km": 12},
     {"nombre": "SANT MIQUEL DE BELENYA", "km": 62},
     {"nombre": "SANT PERE VILAM", "km": 46},
+    {"nombre": "SANT PERE DE TORELLO", "km": 98},
     {"nombre": "SANT POL DE MAR", "km": 47},
     {"nombre": "SANT QUIRZE", "km": 22},
     {"nombre": "SANT VICENT DL HORTS", "km": 18},
     {"nombre": "SANT VICENT DE CASTELLET", "km": 58},
+    {"nombre": "SANT VICENT DE TORELLO", "km": 84},
     {"nombre": "SANTA COLOMA", "km": 92},
     {"nombre": "SANTA MARIA PALAU TORDERA", "km": 52},
     {"nombre": "SANTA PERPETUA DE MOGODA", "km": 24},
@@ -194,7 +196,7 @@ def index():
         weight = float(request.form.get('peso', 0))
         metros_cubicos = float(request.form.get('metros_cubicos', 0))
         is_adr = 'adr' in request.form
-        if distance <= 0 or weight <= 0 or metros_cubicos <= 0:
+        if distance <= 0  or metros_cubicos <= 0:
             raise ValueError("Todos los valores deben ser positivos y mayores que cero.")
         base_price, used_cubic_meters, cubic_weight, adr_cost = calculate_price_with_cubic_weight(distance, weight, metros_cubicos, is_adr)
         history.append({
